@@ -1,0 +1,32 @@
+# Dependências do Node
+node_modules/
+package-lock.json
+
+# Arquivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretórios de ambiente
+.env
+.env.*
+
+# Arquivos de configuração locais
+*.local
+
+# Diretórios de build
+dist/
+build/
+.cache/
+
+# Configurações do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações do editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

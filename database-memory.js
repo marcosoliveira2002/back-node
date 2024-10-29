@@ -4,7 +4,7 @@ export class DatabaseMemory{
   #tipos = new Map();
 
   list (){
-    return this.#tipos.values();
+    return Array.from(this.#tipos.values());
   }
   create (tipo){
     const tipoId = randomUUID();

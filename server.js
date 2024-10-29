@@ -15,21 +15,29 @@ const server = fastify();
 
 const database = new DatabaseMemory()
 
-server.post('/tipos', () =>{
-    database.create({
-      nome_tipo_produto
-    })
+
+
+server.post('/tipos', (request, reply) => {
+  const { nome_tipo_produto } = request.body
+
+
+  database.create({
+    nome_tipo_produto
+  })
+
+  return reply.status(201).send()
 })
 
-server.get('/tipos', () =>{
+server.get('/tipos', () => {
+  const tipos = database.list()
+  return tipos
+})
+
+server.put('/tipos/:id', () => {
   return 'Hello world'
 })
 
-server.put('/tipos/:id', () =>{
-  return 'Hello world'
-})
-
-server.delete('/tipos/:id', () =>{
+server.delete('/tipos/:id', () => {
   return 'Hello world'
 })
 
