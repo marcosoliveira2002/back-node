@@ -1,0 +1,22 @@
+POST http://localhost:3333/tipos
+Content-Type: application/json
+
+{
+  "nome_tipo_produto": "Sucos"
+}
+
+###
+
+GET http://localhost:3333/tipos?search=node
+
+###
+
+PUT http://localhost:3333/tipos/e162960a-41d8-4595-a952-685ec6c7afdd
+Content-Type: application/json
+
+{
+  "nome_tipo_produto": "Sucos"
+}
+
+###
+DELETE  http://localhost:3333/tipos/069fe53e-4bdb-4ae4-9d2e-c354792aaa17
