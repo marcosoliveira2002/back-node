@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: leco_sis
+    environment:
+      POSTGRES_USER: docker         
+      POSTGRES_PASSWORD: docker      
+      POSTGRES_DB: leco_sis         
+    ports:
+      - "5435:5432"  # Mapeia a porta 5435 do host para a porta 5432 do container
+    volumes:
+      - pg_data:/var/lib/postgresql/data 
+
+  prisma:
+    image: node:20.17.0
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["sh", "-c", "npx prisma migrate dev --name init"]
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:

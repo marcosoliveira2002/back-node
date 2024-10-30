@@ -7,7 +7,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3333/tipos?search=node
+GET http://localhost:3333/tipos
 
 ###
 

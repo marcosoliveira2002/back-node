@@ -8,8 +8,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Diretórios de ambiente
-.env
-.env.*
+# .env
+# .env.*
 
 # Arquivos de configuração locais
 *.local
