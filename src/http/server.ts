@@ -1,54 +1,34 @@
-import { fastify } from 'fastify';
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { DatabasePrisma } from '../database-memory';
+import fastify, { type FastifyInstance } from 'fastify';
+import cors from '@fastify/cors';
+import { userRoutes } from '../routes/user.routes';
 
-const server = fastify();
-const database = new DatabasePrisma();
+const app: FastifyInstance = fastify();
 
-interface TipoParams {
-  id: string;
-}
 
-interface TipoQuery {
-  search?: string;
-}
+app.register(cors, {
+  origin: (origin, cb) => {
+    const allowedOrigins = [
+      'http://127.0.0.1:5500', // Live Server do VS Code
+      'http://localhost:3333', 
+      // 'http://localhost:4000'  /
+    ];
 
-interface TipoBody {
-  nome_tipo_produto: string;
-}
-
-server.post('/tipos', async (request: FastifyRequest<{ Body: TipoBody }>, reply: FastifyReply) => {
-  const { nome_tipo_produto } = request.body;
-
-  await database.create({ nome_tipo_produto });
-
-  return reply.status(201).send();
+    if (!origin || allowedOrigins.includes(origin)) {
+      cb(null, true); 
+    } else {
+      cb(new Error('Not allowed by CORS'), false); 
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 
-server.get('/tipos', async (request: FastifyRequest<{ Querystring: TipoQuery }>) => {
-  const search = request.query.search;
-  const tipos = await database.list(search);
-  return tipos;
+
+app.register(userRoutes, {
+  prefix: '/user',
 });
 
-server.put('/tipos/:id', async (request: FastifyRequest<{ Params: TipoParams; Body: TipoBody }>, reply: FastifyReply) => {
-  const tipoId = request.params.id;
-  const { nome_tipo_produto } = request.body;
 
-  await database.update(tipoId, { nome_tipo_produto });
-
-  return reply.status(204).send();
-});
-
-server.delete('/tipos/:id', async (request: FastifyRequest<{ Params: TipoParams }>, reply: FastifyReply) => {
-  const tipoId = request.params.id;
-
-  await database.delete(tipoId);
-
-  return reply.status(204).send();
-});
-
-server.listen({ port: 3333 }, (err, address) => {
+app.listen({ port: 3333 }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);

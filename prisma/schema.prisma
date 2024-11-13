@@ -13,7 +13,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tipo {
-  id                String @id @default(uuid()) @db.Uuid
-  nome_tipo_produto String
+model User {
+  id_user String @id @default(uuid()) @db.Uuid
+  login   String @unique
+  senha   String
+  tipo    String @db.Char(1)
+
+  garcom Garcom? // Relacionamento 1:1 com Garcom (um usuário pode ter um garçom)
+}
+
+model Garcom {
+  id_garcom String @id @default(uuid()) @db.Uuid
+  nome      String
+  telefone  String
+  id_user   String @unique @db.Uuid // Chave estrangeira para User
+
+  user    User     @relation(fields: [id_user], references: [id_user])
+  pedidos Pedido[]
+
+  @@map("garcom")
+}
+
+model Mesa {
+  id_mesa          String  @id @default(uuid()) @db.Uuid
+  numero_mesa      Int
+  status           Boolean
+  status_pagamento Boolean
+
+  pedidos Pedido[]
+}
+
+model Pedido {
+  id_pedido String   @id @default(uuid()) @db.Uuid
+  id_mesa   String   @db.Uuid
+  id_garcom String   @db.Uuid
+  data_hora DateTime
+  status    Boolean
+
+  mesa   Mesa         @relation(fields: [id_mesa], references: [id_mesa])
+  garcom Garcom       @relation(fields: [id_garcom], references: [id_garcom])
+  itens  ItemPedido[]
+
+  @@map("pedido")
+}
+
+model ItemPedido {
+  id_item_pedido String  @id @default(uuid()) @db.Uuid
+  id_pedido      String  @db.Uuid
+  id_produto     String  @db.Uuid
+  quantidade     Int
+  observacoes    String? @db.VarChar(255)
+
+  pedido  Pedido  @relation(fields: [id_pedido], references: [id_pedido])
+  produto Produto @relation(fields: [id_produto], references: [id_produto])
+
+  @@map("item_pedido")
+}
+
+model Produto {
+  id_produto           String @id @default(uuid()) @db.Uuid
+  nome_produto         String
+  preco                Float
+  id_categoria_produto String @db.Uuid
+
+  categoria CategoriaProduto @relation(fields: [id_categoria_produto], references: [id_categoria_produto])
+  itens     ItemPedido[]
+
+  @@map("produto")
+}
+
+model CategoriaProduto {
+  id_categoria_produto String @id @default(uuid()) @db.Uuid
+  categoria            String @db.VarChar(60)
+
+  produtos Produto[]
+
+  @@map("categoria_produto")
 }
