@@ -1,16 +1,16 @@
 import fastify, { type FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
 import { userRoutes } from '../routes/user.routes';
+import { categoryRoutes } from '../routes/category.routes'; 
 
 const app: FastifyInstance = fastify();
-
 
 app.register(cors, {
   origin: (origin, cb) => {
     const allowedOrigins = [
-      'http://127.0.0.1:5500', // Live Server do VS Code
+      'http://127.0.0.1:5500', 
       'http://localhost:3333', 
-      // 'http://localhost:4000'  /
+      // 'http://localhost:4000' 
     ];
 
     if (!origin || allowedOrigins.includes(origin)) {
@@ -24,9 +24,12 @@ app.register(cors, {
 
 
 app.register(userRoutes, {
-  prefix: '/user',
+  prefix: '/user', 
 });
 
+app.register(categoryRoutes, {
+  prefix: '/category', 
+});
 
 app.listen({ port: 3333 }, (err, address) => {
   if (err) {
