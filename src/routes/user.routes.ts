@@ -5,7 +5,6 @@ import { UserCreate } from "../interfaces/user.interface";
 export async function userRoutes(app: FastifyInstance) {
   const userUseCase = new UserUseCase();
 
-  // Rota para cadastrar usuário
   app.post("/user", async (request, reply) => {
     const { login, senha, tipo } = request.body as { login: string; senha: string; tipo: string };
 

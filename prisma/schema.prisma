@@ -35,12 +35,15 @@ model Garcom {
 }
 
 model Mesa {
-  id_mesa          String  @id @default(uuid()) @db.Uuid
-  numero_mesa      Int
-  status           Boolean
-  status_pagamento Boolean
+  id_mesa     String @id @default(uuid()) @db.Uuid
+  numero_mesa Int
 
   pedidos Pedido[]
+}
+
+enum Status {
+  P
+  C
 }
 
 model Pedido {
@@ -48,7 +51,7 @@ model Pedido {
   id_mesa   String   @db.Uuid
   id_garcom String   @db.Uuid
   data_hora DateTime
-  status    Boolean
+  status    Status
 
   mesa   Mesa         @relation(fields: [id_mesa], references: [id_mesa])
   garcom Garcom       @relation(fields: [id_garcom], references: [id_garcom])
