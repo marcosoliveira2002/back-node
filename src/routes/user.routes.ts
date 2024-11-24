@@ -27,4 +27,13 @@ export async function userRoutes(app: FastifyInstance) {
       return reply.status(400).send({ error: (err as Error).message });
     }
   });
+
+  app.get("/list", async (request, reply) => {
+    try {
+      const mesas = await userUseCase.list();
+      return reply.status(200).send(mesas);
+    } catch (error) {
+      return reply.status(500).send({ error: (error as Error).message });
+    }
+  });
 }

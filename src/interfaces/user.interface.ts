@@ -13,4 +13,5 @@ export interface UserCreate{
 export interface UserController{
   create(data: UserCreate): Promise<User>;
   findByLogin(login : string): Promise<User | null>;
+  list(): Promise<User[]>;
 }

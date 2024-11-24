@@ -21,6 +21,11 @@ async findByLogin(login: string): Promise<User | null> {
   return result || null
 }
 
+async list(): Promise<User[]> {
+  const mesas = await prisma.user.findMany();
+  return mesas;
+}
+
 }
 
 export { UserRepositoryPrisma };

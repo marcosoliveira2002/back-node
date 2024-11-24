@@ -31,6 +31,11 @@ class UserUseCase {
 
     return user;
   }
+
+  async list(): Promise<User[]> {
+    const result = await this.user.list();
+    return result;
+  }
 }
 
 export { UserUseCase };
