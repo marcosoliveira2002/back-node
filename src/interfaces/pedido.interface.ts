@@ -14,4 +14,5 @@ export interface PedidoCreate {
 export interface PedidoController {
   create(data: PedidoCreate): Promise<Pedido>;
   close(id: string): Promise<void>;
+  list(): Promise<Pedido[]>;
 }

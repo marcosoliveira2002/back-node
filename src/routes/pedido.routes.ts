@@ -14,6 +14,15 @@ const pedidoRoutes = async (app: FastifyInstance) => {
     }
   });
 
+  app.get("/list", async (request, reply) => {
+    try {
+      const pedidos = await pedidoUseCase.list();
+      return reply.status(200).send(pedidos);
+    } catch (error) {
+      return reply.status(500).send({ error: (error as Error).message });
+    }
+  });
+
   app.patch("/close/:id", async (request, reply) => {
     try {
       const { id } = request.params as { id: string };
@@ -23,6 +32,7 @@ const pedidoRoutes = async (app: FastifyInstance) => {
       return reply.status(400).send({ error: (error as Error).message });
     }
   });
+
   app.get("/pedido/:id", async (request, reply) => {
     const { id } = request.params as { id: string };
 
@@ -33,6 +43,9 @@ const pedidoRoutes = async (app: FastifyInstance) => {
       return reply.status(404).send({ error: (err as Error).message });
     }
   });
+
+
+
 };
 
 export { pedidoRoutes };

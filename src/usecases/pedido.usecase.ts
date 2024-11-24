@@ -18,6 +18,12 @@ class PedidoUseCase {
   async close(id: string): Promise<void> {
     await this.pedido.close(id);
   }
+
+  async list(): Promise<Pedido[]> {
+    const result = await this.pedido.list();
+    return result;
+  }
+
 }
 
 export { PedidoUseCase };

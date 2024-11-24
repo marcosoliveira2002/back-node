@@ -21,6 +21,15 @@ class PedidoRepository implements PedidoController {
     });
   }
 
+  async list(): Promise<Pedido[]> {
+    const pedidos = await prisma.pedido.findMany({
+      where: {
+        status: "P", 
+      },
+    });
+    return pedidos;
+  }
+
   async findPedidoWithItens(id_pedido: string): Promise<any> {
     const pedido = await prisma.pedido.findUnique({
       where: { id_pedido },
