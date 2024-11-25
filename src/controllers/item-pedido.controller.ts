@@ -17,6 +17,13 @@ class ItemPedidoRepository implements ItemPedidoController {
   async listByPedido(id_pedido: string): Promise<ItemPedido[]> {
     const result = await prisma.itemPedido.findMany({
       where: { id_pedido },
+      include: {
+        produto: {
+          select: {
+            nome_produto: true,
+          },
+        },
+      },
     });
     return result;
   }
