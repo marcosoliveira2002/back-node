@@ -24,7 +24,14 @@ class PedidoRepository implements PedidoController {
   async list(): Promise<Pedido[]> {
     const pedidos = await prisma.pedido.findMany({
       where: {
-        status: "P", 
+        status: "P",
+      },
+      include: {
+        mesa: {
+          select: {
+            numero_mesa: true, 
+          },
+        },
       },
     });
     return pedidos;
